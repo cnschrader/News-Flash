@@ -4,6 +4,11 @@ const express = require('express');
 const logger = require('morgan');
 const mongoose = require('mongoose');
 
+// requiring handlebars
+var express = require("express");
+var exphbs = require("express-handlebars");
+
+// axios for apis, and cheerio for scraping.
 const axios = require('axios');
 const cheerio = require('cheerio');
 
@@ -24,4 +29,13 @@ app.use(express.json());
 
 // Making the public file static
 app.use(express.static('public'));
+
+// Handlebars
+app.engine(
+    "handlebars",
+    exphbs({
+      defaultLayout: "main"
+    })
+  );
+  app.set("view engine", "handlebars");
 
