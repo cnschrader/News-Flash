@@ -5,8 +5,8 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 
 // requiring handlebars
-var express = require("express");
-var exphbs = require("express-handlebars");
+
+var exphbs = require('express-handlebars');
 
 // axios for apis, and cheerio for scraping.
 const axios = require('axios');
@@ -17,6 +17,11 @@ const db = require('./models');
 
 // Establishing the port that will be used 
 const PORT = 3000
+
+// connecting to the mongodb
+mongoose.connect('mongodb://localhost/newsflash',{ useNewUrlParser: true });
+
+
 
 // Using express
 var app = express();
@@ -39,10 +44,15 @@ app.engine(
   );
   app.set("view engine", "handlebars");
 
+  //Routes==============================
+  app.get('/', function(req, res){
+      res.send('Testing the connection')
+  })
+
   
 // Server is listening on port 3000
   app.listen(PORT, function() {
-    console.log("App running on port " + PORT + "!");
+    console.log('App running on port ' + PORT + '!');
   });
   
 
