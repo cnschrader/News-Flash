@@ -19,7 +19,7 @@ const db = require('./models');
 const PORT = 3000
 
 // connecting to the mongodb
-mongoose.connect('mongodb://localhost/newsflash',{ useNewUrlParser: true });
+mongoose.connect('mongodb://localhost/NewsFlash',{ useNewUrlParser: true });
 
 
 
@@ -46,7 +46,36 @@ app.engine(
 
   //Routes==============================
   app.get('/', function(req, res){
-      res.send('Testing the connection')
+      axios.get('https://www.buzzfeednews.com/',).then(function(response){
+        const $ = cheerio.load(response.data);
+        const results = [];
+
+        $('article').each(function(i, element){
+            
+            const title = $(element).text();
+
+            const link = $(element).children().attr('href')
+            
+            results.push({
+                title: title,
+                link: link
+            })
+
+
+            db.Article.create(results)
+            .then(function(dbArticle){
+                console.log(dbArticle)
+                
+            })
+            .catch(function(err){
+                console.log(err);
+            });
+        });
+       
+
+        res.send(results)
+        
+      })
   })
 
   
