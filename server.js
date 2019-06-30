@@ -44,7 +44,7 @@ app.engine(
   );
   app.set("view engine", "handlebars");
 
-  //Routes==============================
+  //API Routes==============================
   app.get('/', function(req, res){
       axios.get('https://www.buzzfeednews.com/',).then(function(response){
         const $ = cheerio.load(response.data);
@@ -77,6 +77,13 @@ app.engine(
         
       })
   })
+
+
+//   HTML ROUTES==========================
+
+app.get('/', function(res, req){
+    res.render('index')
+})
 
   
 // Server is listening on port 3000
